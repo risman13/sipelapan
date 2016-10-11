@@ -9,13 +9,13 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 function getAppName()
 {
-	$appName = 'Sistem Informasi Tindak Pidana';
+	$appName = 'Sistem Informasi Pencatatan Laporan Polisi & Penyidikan';
 	return $appName;
 }
 
 function getAppNameShort()
 {
-	$appNameShort = 'SITINA';
+	$appNameShort = 'SIPELAPAN';
 	return $appNameShort;
 }
 
@@ -29,14 +29,14 @@ function getTitle()
 {
 	$CI =& get_instance();
 	$fetchClass = str_replace('_', ' ', $CI->router->fetch_class());
-	$title = ucwords($fetchClass)." &mdash; Sistem Informasi Tindak Pidana";
+	$title = ucwords($fetchClass)." &mdash; ".getAppName();
 	
 	return $title;
 }
 
 function getFooter()
 {
-	$footer = '&copy; 2016. <a href="">Sistem Informasi Tindak Pidana</a> Ver. 1.0';
+	$footer = '&copy; 2016. <a href="">'.getAppName().'</a> | POLDA SUMSEL';
 	return $footer;
 }
 
