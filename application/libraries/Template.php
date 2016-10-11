@@ -19,11 +19,14 @@ class Template
 	public function __construct()
 	{
         $this->ci =& get_instance();
+        $this->ci->load->library('parser');
 	}
 
-	public function frontend()
+	public function frontend($content)
 	{
-		# code...
+		$template = $this->ci->parser->parse('__template/__backend/default', $content);
+
+		$this->ci->output->set_output($template);
 	}	
 
 }
