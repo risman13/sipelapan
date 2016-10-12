@@ -6,14 +6,17 @@ class Login extends MY_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->library('template');
+		$this->_init();
+	}
+
+	private function _init()
+	{
+		$this->output->set_template('__backend');
 	}
 
 	public function index()
 	{
-		$content = array('');
-
-		$this->template->frontend($content);
+		$this->load->view('login_content');
 	}
 
 }
