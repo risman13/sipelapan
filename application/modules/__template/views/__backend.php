@@ -25,8 +25,9 @@
 	<!-- Core JS files -->
 	<script type="text/javascript" src="<?=base_url('assets/js/plugins/loaders/pace.min.js')?>"></script>
 	<script type="text/javascript" src="<?=base_url('assets/js/core/libraries/jquery.min.js')?>"></script>
-	<script type="text/javascript" src="<?=base_url('assets/js/core/libraries/bootstrap.min.js')?>"></script>
 	<script type="text/javascript" src="<?=base_url('assets/js/plugins/loaders/blockui.min.js')?>"></script>
+	<script type="text/javascript" src="<?=base_url('assets/js/core/libraries/bootstrap.min.js')?>"></script>
+	<script type="text/javascript" src="<?=base_url('assets/js/plugins/ui/moment/moment.min.js')?>"></script>
 	<!-- /core JS files -->
 
 	<!-- Add js -->

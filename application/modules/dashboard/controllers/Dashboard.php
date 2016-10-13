@@ -14,13 +14,12 @@ class Dashboard extends CI_Controller {
 		$this->output->set_template('__backend');
 
 		//add js
+		$this->output->js('assets/js/plugins/pickers/daterangepicker.js');
 		$this->output->js('assets/js/plugins/visualization/d3/d3.min.js');
 		$this->output->js('assets/js/plugins/visualization/d3/d3_tooltip.js');
 		$this->output->js('assets/js/plugins/forms/styling/switchery.min.js');
-		$this->output->js('assets/js/plugins/pickers/daterangepicker.js');
 		$this->output->js('assets/js/plugins/forms/styling/uniform.min.js');
 		$this->output->js('assets/js/plugins/forms/selects/bootstrap_multiselect.js');
-		$this->output->js('assets/js/plugins/ui/moment/moment.min.js');
 		$this->output->js('assets/js/pages/dashboard.js');
 
 		$this->load->view('__template/navbar');
