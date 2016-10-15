@@ -33,8 +33,18 @@
 				<!-- Content area -->
 				<div class="content">
 
+				<?php if ($this->session->flashdata()): ?>
+					<div class="alert bg-<?= $this->session->flashdata('ResponColor'); ?> alert-styled-left">
+						<button type="button" class="close" data-dismiss="alert">
+							<span>×</span><span class="sr-only">Close</span>
+						</button>
+						<strong><?= $this->session->flashdata('ResponTitle'); ?></strong>
+						<br><?= $this->session->flashdata('ResponMesage'); ?>
+				    </div>					
+				<?php endif ?>
+
 					<!-- Simple login form -->
-					<form action="index.html">
+					<form method="post" action="<?=base_url('login/auth')?>">
 						<div class="panel panel-body login-form">
 							<div class="text-center">
 								<img src="<?=base_url('assets/images/Lambang_Polda_Sumsel.png')?>" height="150">
@@ -42,14 +52,14 @@
 							</div>
 
 							<div class="form-group has-feedback has-feedback-left">
-								<input type="text" class="form-control" placeholder="Username">
+								<input type="text" name="username" class="form-control" placeholder="Username">
 								<div class="form-control-feedback">
 									<i class="icon-user text-muted"></i>
 								</div>
 							</div>
 
 							<div class="form-group has-feedback has-feedback-left">
-								<input type="text" class="form-control" placeholder="Password">
+								<input type="password" name="password" class="form-control" placeholder="Password">
 								<div class="form-control-feedback">
 									<i class="icon-lock2 text-muted"></i>
 								</div>

@@ -256,7 +256,6 @@ class CI_DB_mysqli_driver extends CI_DB {
 		if ($this->conn_id->select_db($database))
 		{
 			$this->database = $database;
-			$this->data_cache = array();
 			return TRUE;
 		}
 
@@ -301,9 +300,32 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 * @param	string	$sql	an SQL query
 	 * @return	mixed
 	 */
-	protected function _execute($sql)
+	
+	public function _execute($sql)
 	{
-		return $this->conn_id->query($this->_prep_query($sql));
+	    // Free result from previous query
+	    @mysqli_free_result($this->result_id);
+
+	    $sql = $this->_prep_query($sql);
+
+	    // get a result code of query (), can be used for test is the query ok
+	    $retval = @mysqli_multi_query($this->conn_id, $sql); 
+
+	    // get a first resultset
+	    $firstResult = @mysqli_store_result($this->conn_id);
+
+	    // free other resultsets
+	    while (@mysqli_next_result($this->conn_id)) {
+	        $result = @mysqli_store_result($this->conn_id);
+	        @mysqli_free_result($result);
+	    }
+
+	    // test is the error occur or not 
+	    if (!$firstResult && !@mysqli_errno($this->conn_id)) {
+	        return true;
+	    }
+
+	    return $firstResult; 
 	}
 
 	// --------------------------------------------------------------------
