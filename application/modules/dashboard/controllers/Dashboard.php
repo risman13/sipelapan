@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Dashboard extends CI_Controller {
+class Dashboard extends MY_Controller {
 
 	public function __construct()
 	{
@@ -27,8 +27,7 @@ class Dashboard extends CI_Controller {
 
 	public function index()
 	{
-		//$this->load->view('__template/navbar');
-		$this->load->view('dashboard_content');
+ 		$this->load->view('dashboard_content');
 	}
 
 }

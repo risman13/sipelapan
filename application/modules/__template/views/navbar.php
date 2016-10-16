@@ -1,7 +1,18 @@
+<?php
+if (!$this->session->userdata('logged_in')) 
+{
+	$_SESSION['ResponMesage'] = 'Anda belum login atau waktu sessi anda habis';
+	$_SESSION['ResponColor']  = 'warning';
+	$_SESSION['ResponTitle']  = 'Access Forbiden!';
+	$this->session->mark_as_flash(array('ResponMesage', 'ResponColor', 'ResponTitle'));
+
+	redirect(base_url('auth'));
+}
+?>
 	<!-- Main navbar -->
 	<div class="navbar navbar-inverse">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="index.html"><img src="assets/images/logo_light.png" alt=""></a>
+			<a class="navbar-brand" href=""><img src="<?=base_url('assets/images/sipelapan-logo.png')?>" alt=""></a>
 
 			<ul class="nav navbar-nav visible-xs-block">
 				<li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
@@ -13,19 +24,23 @@
 			<ul class="nav navbar-nav">
 				<li><a class="sidebar-control sidebar-main-toggle hidden-xs"><i class="icon-paragraph-justify3"></i></a></li>
 
+				<li>
+					<a href="<?=base_url('')?>" target="_blank" class="dropdown-toggle">
+						<i class="icon-earth"></i>
+						<span class="visible-xs-inline-block position-right">Kunjungi Situs</span>
+					</a>
+				</li>
+
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-						<i class="icon-git-compare"></i>
-						<span class="visible-xs-inline-block position-right">Git updates</span>
-						<span class="badge bg-warning-400">9</span>
+						<i class="icon-info22"></i>
+						<span class="visible-xs-inline-block position-right">Notifikasi</span>
+						<span class="badge bg-warning-400">2</span>
 					</a>
 					
 					<div class="dropdown-menu dropdown-content">
 						<div class="dropdown-content-heading">
 							Git updates
-							<ul class="icons-list">
-								<li><a href="#"><i class="icon-sync"></i></a></li>
-							</ul>
 						</div>
 
 						<ul class="media-list dropdown-content-body width-350">
@@ -95,22 +110,6 @@
 			<p class="navbar-text"><span class="label bg-success-400">Online</span></p>
 
 			<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown language-switch">
-					<a class="dropdown-toggle" data-toggle="dropdown">
-						<img src="assets/images/flags/gb.png" class="position-left" alt="">
-						English
-						<span class="caret"></span>
-					</a>
-
-					<ul class="dropdown-menu">
-						<li><a class="deutsch"><img src="assets/images/flags/de.png" alt=""> Deutsch</a></li>
-						<li><a class="ukrainian"><img src="assets/images/flags/ua.png" alt=""> Українська</a></li>
-						<li><a class="english"><img src="assets/images/flags/gb.png" alt=""> English</a></li>
-						<li><a class="espana"><img src="assets/images/flags/es.png" alt=""> España</a></li>
-						<li><a class="russian"><img src="assets/images/flags/ru.png" alt=""> Русский</a></li>
-					</ul>
-				</li>
-
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 						<i class="icon-bubbles4"></i>
@@ -121,9 +120,6 @@
 					<div class="dropdown-menu dropdown-content width-350">
 						<div class="dropdown-content-heading">
 							Messages
-							<ul class="icons-list">
-								<li><a href="#"><i class="icon-compose"></i></a></li>
-							</ul>
 						</div>
 
 						<ul class="media-list dropdown-content-body">
@@ -204,18 +200,17 @@
 
 				<li class="dropdown dropdown-user">
 					<a class="dropdown-toggle" data-toggle="dropdown">
-						<img src="assets/images/placeholder.jpg" alt="">
-						<span>Victoria</span>
+						<img src="<?=base_url('assets/uploads/'.$this->session->userdata('lok_foto'))?>" alt="">
+						<span><?= explode(' ', $this->session->userdata('nama_lengkap'))[0];  ?></span>
 						<i class="caret"></i>
 					</a>
 
 					<ul class="dropdown-menu dropdown-menu-right">
-						<li><a href="#"><i class="icon-user-plus"></i> My profile</a></li>
-						<li><a href="#"><i class="icon-coins"></i> My balance</a></li>
-						<li><a href="#"><span class="badge bg-teal-400 pull-right">58</span> <i class="icon-comment-discussion"></i> Messages</a></li>
+						<li><a href="#"><span class="badge bg-teal-400 pull-right">58</span> <i class="icon-comment-discussion"></i> Pesan</a></li>
+						<li><a href="#"><i class="icon-user-plus"></i> Ubah Profil</a></li>
+						<li><a href="#"><i class="icon-cog5"></i> Ubah Password</a></li>						
 						<li class="divider"></li>
-						<li><a href="#"><i class="icon-cog5"></i> Account settings</a></li>
-						<li><a href="#"><i class="icon-switch2"></i> Logout</a></li>
+						<li><a href="<?=base_url('auth/logout')?>"><i class="icon-switch2"></i> Logout</a></li>
 					</ul>
 				</li>
 			</ul>

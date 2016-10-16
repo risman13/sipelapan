@@ -1,7 +1,12 @@
+<?php
+//print_r($this->session->tempdata());
+
+//echo $this->input->ip_address();
+?>
 <!-- Main navbar -->
 	<div class="navbar navbar-inverse">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="index.html"><img src="<?=base_url('assets/images/sipelapan-logo.png')?>" alt=""></a>
+			<a class="navbar-brand" href=""><img src="<?=base_url('assets/images/sipelapan-logo.png')?>" alt=""></a>
 
 			<ul class="nav navbar-nav pull-right visible-xs-block">
 				<li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
@@ -44,7 +49,7 @@
 				<?php endif ?>
 
 					<!-- Simple login form -->
-					<form method="post" action="<?=base_url('login/auth')?>">
+					<form method="post" action="<?=base_url('auth/cek_login')?>">
 						<div class="panel panel-body login-form">
 							<div class="text-center">
 								<img src="<?=base_url('assets/images/Lambang_Polda_Sumsel.png')?>" height="150">
