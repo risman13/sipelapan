@@ -6,7 +6,7 @@ class Auth extends MY_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		date_default_timezone_set('GMT');
+		date_default_timezone_set('Asia/Jakarta');
 		$this->load->model('auth_model');
 		$this->_init();
 	}
@@ -82,6 +82,7 @@ class Auth extends MY_Controller {
 		else 
 		{
 			$minute = date('i');
+			$time = date('H:i');
 			if (!$this->session->tempdata('login_failed')) 
 			{
 				$login_failed = 1;
@@ -95,11 +96,12 @@ class Auth extends MY_Controller {
 			$sessionData = array(
 				'login_failed' => $login_failed, 
 				'last_failed' => $minute,
+				'time' => $time,
 			);
 			$this->session->set_tempdata($sessionData, 180);
 
 			$_SESSION['ResponMesage'] = $authResponse['ResponMesage'].
-			'<br><strong> '.$this->session->userdata('login_failed').' kali gagal login. Jika 5 kali salah, anda harus menungu selama 3 menit untuk dapat login kembali</strong>';
+			'<br><strong> '.$this->session->tempdata('login_failed').' kali gagal login. Jika 5 kali salah, anda harus menungu selama 3 menit untuk dapat login kembali.</strong>';
 
 			$_SESSION['ResponColor']  = $authResponse['ResponColor'];
 			$_SESSION['ResponTitle']  = $authResponse['ResponTitle'];
