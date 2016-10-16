@@ -43,21 +43,45 @@ function getFooter()
 function getBreadcrumb($total_segment)
 {
 	$CI =& get_instance();
-	$breadcrumb = '<ol class="breadcrumb">';
+	$breadcrumb = '<ul class="breadcrumb">';
+	$breadcrumb .= "\n\t".'<li><a href="'.base_url('dashboard').'"><i class="icon-home2 position-left"></i> Home</a></li>';
 
 	for ($i=1; $i < $total_segment+1; $i++) { 
 		if ($i == $total_segment) {
-			$curent = '<li class="active">'.str_replace('_', ' ', $CI->uri->segment($i)).'</li>';
+			$curent = '<li class="active">'.ucwords(str_replace('_', ' ', $CI->uri->segment($i))).'</li>';
 		} else {
-			$curent = '<li><a href="'.base_url($CI->uri->segment($i)).'">'.str_replace('_', ' ', $CI->uri->segment($i)).'</a></li>';
+			$curent = '<li><a href="'.base_url($CI->uri->segment($i)).'">'.ucwords(str_replace('_', ' ', $CI->uri->segment($i))).'</a></li>';
 		}
 		
 		$breadcrumb .= "\n\t".$curent;
 	}
 
-	$breadcrumb .= '</ol>';
+	$breadcrumb .= '</ul>';
 
 	return $breadcrumb;
+}
+
+function getPageHeaderTitle()
+{
+	$CI =& get_instance();
+	$pageHeaderTitle = '<span class="text-semibold">';
+
+	if ($CI->router->fetch_class() == 'dashboard') 
+	{
+		$pageHeaderTitle .= 'Home';
+		$pageHeaderTitle .= '</span>';
+		$pageHeaderTitle .= ' - ';
+		$pageHeaderTitle .= 'Dashboard';
+	}
+	else
+	{
+		$pageHeaderTitle .= ucwords(str_replace('_', ' ', $CI->router->fetch_class()));
+		$pageHeaderTitle .= '</span>';
+		$pageHeaderTitle .= ' - ';
+		$pageHeaderTitle .= ucwords(str_replace('_', ' ', $CI->router->fetch_method()));
+	}
+
+	return $pageHeaderTitle;
 }
 
 function seo_url($text)

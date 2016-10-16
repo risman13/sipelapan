@@ -22,7 +22,9 @@ class Dashboard extends MY_Controller {
 		$this->output->js('assets/js/plugins/forms/selects/bootstrap_multiselect.js');
 		$this->output->js('assets/js/pages/dashboard.js');
 
-		$this->load->view('__template/navbar');
+		$this->output->section('navbar', '__template/__backend/navbar');
+		$this->output->section('pageheader', '__template/__backend/pageheader');
+		$this->output->section('footer', '__template/__backend/footer');
 	}
 
 	public function index()

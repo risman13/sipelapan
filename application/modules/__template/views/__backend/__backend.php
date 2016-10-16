@@ -43,7 +43,13 @@
 
 <body>
 
- <?= $output ?>
+	<?= $this->output->get_section('navbar'); ?>
+
+	<?= $this->output->get_section('pageheader'); ?>
+
+	<?= $output ?>
+
+	<?= $this->output->get_section('footer'); ?>
 
 </body>
 </html>
