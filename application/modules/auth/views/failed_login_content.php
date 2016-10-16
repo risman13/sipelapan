@@ -37,13 +37,15 @@
 
 				<!-- Content area -->
 				<div class="content">
+				<?php $time = strtotime($this->session->tempdata('time')); ?>
 
 					<div class="alert bg-danger alert-styled-left">
 						<button type="button" class="close" data-dismiss="alert">
 							<span>×</span><span class="sr-only">Close</span>
 						</button>
 						<strong>Access Forbidden! </strong>
-						<br>Anda 5 kali gagal login, demi keamanan silahkan akses kembali halaman ini 3 menit dari sekarang.
+						<br>Anda 5 kali gagal login, demi keamanan silahkan akses kembali halaman ini pada pukul 
+							<?= date("H:i", strtotime('+3 minutes', $time)); ?> WIB
 				    </div>
 
 					<!-- Footer -->
