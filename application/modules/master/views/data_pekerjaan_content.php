@@ -49,7 +49,9 @@
 									</a>
 								</li>
 								<li>
-									<a href="#" onclick="sweet_combine()"">
+									<a href="#" onclick="hapus<?= $value_pekerjaan->id_pekerjaan ?>()">
+										<input type="hidden" name="id_pekerjaan" 
+											id="id_pekerjaan-<?= $value_pekerjaan->id_pekerjaan ?>" value="<?= $value_pekerjaan->id_pekerjaan ?>">
 										<i class="icon-trash"></i> Hapus
 									</a>
 								</li>
@@ -123,8 +125,8 @@
 </div>
 <!-- /modal tambah data -->
 
-<!-- modal edit data -->
 <?php foreach ($data_pekerjaan as $key => $modal): ?>
+	<!-- modal edit data -->
 	<div id="modal-edit-<?= $modal->id_pekerjaan ?>" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -154,40 +156,49 @@
 				</form>
 			</div>
 		</div>
-	</div>	
-<?php endforeach ?>
-<!-- /modal edit data -->
+	</div>
+	<!-- /modal edit data -->
 
 <script type="text/javascript">
-	function sweet_combine() {
+	function hapus<?= $modal->id_pekerjaan ?>() {
 		swal({
-            title: "Ingin hapus data ini?",
-            text: "You will not be able to recover this imaginary file!",
+            title: "Ingin hapus data '<?= $modal->nama_pekerjaan ?>' ?",
+            text: "Data anda akan dihapus secara permanen",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#EF5350",
-            confirmButtonText: "Yes, delete it!",
-            cancelButtonText: "No, cancel pls!",
+            confirmButtonText: "Ya, hapus data",
+            cancelButtonText: "Batal",
             closeOnConfirm: false,
-            closeOnCancel: false
+            closeOnCancel: true
         },
-        function(isConfirm){
-            if (isConfirm) {
-                swal({
-                    title: "Deleted!",
-                    text: "Your imaginary file has been deleted.",
-                    confirmButtonColor: "#66BB6A",
-                    type: "success"
-                });
-            }
-            else {
-                swal({
-                    title: "Cancelled",
-                    text: "Your imaginary file is safe :)",
-                    confirmButtonColor: "#2196F3",
-                    type: "error"
-                });
-            }
+        function() {
+        	var id_pekerjaan = document.getElementById('id_pekerjaan-<?= $modal->id_pekerjaan ?>').value;
+        	//console.log(id_pekerjaan);
+        	$.ajax({
+        		type: "POST",
+        		url: "<?=base_url('master/data_pekerjaan_hapus')?>",
+        		data: {
+        			id_pekerjaan: id_pekerjaan
+        		},
+        		success: function(result) {
+        			var data_parsed = JSON.parse(result);
+
+        			swal({
+        				title: data_parsed.return_title,
+        				text: data_parsed.return_mesage,
+        				type: data_parsed.return_status
+        			},
+        			function() {
+        				window.location.href = '<?=base_url('master/data_pekerjaan')?>';
+        			});
+        		},
+        		error: function() {
+        			swal("Error!", "Terjadi kesalahan request", "error");
+        		}
+        	});
+        	//swal("Deleted!", "Your imaginary file has been deleted.", "success"); 
         });
 	}
 </script>
+<?php endforeach ?>

@@ -64,6 +64,41 @@ class Master extends MY_Controller {
 			redirect(base_url('master/data_pekerjaan'));
 		}
 	}
+
+	public function data_pekerjaan_edit()
+	{
+		$this->form_validation->set_rules('nama_pekerjaan', 'Nama Pekerjaan', 'trim|required|max_length[20]', 
+			array('required' => '%s Tidak boleh kosong', 'max_length' => 'Panjang maksimal %s 20 karakter'));
+
+		if ($this->form_validation->run() == FALSE) 
+		{
+			$_SESSION['ResponTitle']  = 'Gagal Simpan!';
+			$_SESSION['ResponMesage'] = validation_errors();
+			$_SESSION['ResponColor']  = 'danger';			
+			$this->session->mark_as_flash(array('ResponMesage', 'ResponColor', 'ResponTitle'));
+			redirect(base_url('master/data_pekerjaan'));
+		} 
+		else 
+		{
+			$response = $this->master_pekerjaan_model->update_master_pekerjaan(strtoupper($this->input->post('nama_pekerjaan')), 
+				$this->input->post('id'));
+
+			$_SESSION['ResponTitle']  = $response['return_title'];
+			$_SESSION['ResponMesage'] = $response['return_mesage'];
+			$_SESSION['ResponColor']  = $response['return_color'];			
+			$this->session->mark_as_flash(array('ResponMesage', 'ResponColor', 'ResponTitle'));
+			redirect(base_url('master/data_pekerjaan'));
+		}
+	}
+
+	public function data_pekerjaan_hapus()
+	{
+		$this->output->unset_template();
+
+		$response = $this->master_pekerjaan_model->delete_master_pekerjaan($this->input->post('id_pekerjaan'));
+
+		echo json_encode($response);
+	}
 	/* end master data pekerjaan */
 }
 
