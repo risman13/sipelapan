@@ -132,7 +132,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h5 class="modal-title">Tambah Data Pekerjaan</h5>
+					<h5 class="modal-title">Edit Data Pekerjaan</h5>
 				</div>
 
 				<form action="<?=base_url('master/data_pekerjaan_edit')?>" method="POST">

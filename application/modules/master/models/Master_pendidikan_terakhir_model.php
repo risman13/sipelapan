@@ -1,30 +1,30 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Master_warganegara_model extends CI_Model {
+class Master_pendidikan_terakhir_model extends CI_Model {
 
-	public function select_master_warganegara()
+	public function select_master_pendidikan_terakhir()
 	{
-		$query = $this->db->get('master_warganegara');
+		$query = $this->db->get('master_pendidikan_terakhir');
 
 		return $query->result();
 	}
 
-	public function insert_master_warganegara($nama_warganegara)
+	public function insert_master_pendidikan_terakhir($nama_pendidikan_terakhir)
 	{
 		$object = array(
-			'nama_warganegara' => $nama_warganegara, 
+			'nama_pendidikan_terakhir' => $nama_pendidikan_terakhir, 
 		);
 
-		$this->db->where('nama_warganegara', $nama_warganegara);
-		$cek = $this->db->get('master_warganegara');
+		$this->db->where('nama_pendidikan_terakhir', $nama_pendidikan_terakhir);
+		$cek = $this->db->get('master_pendidikan_terakhir');
 
 		if ($cek->num_rows() > 0) 
 		{
 			$returnData = array(
 				'status' => FALSE,
 				'return_title' => 'Gagal Simpan!',
-				'return_mesage' => 'Sudah ada data "Nama Warga Negara" yang sama persis dengan yang anda input',
+				'return_mesage' => 'Sudah ada data "Pendidikan Terakhir" yang sama persis dengan yang anda input',
 				'return_color' => 'danger'
 			);
 		}
@@ -32,7 +32,7 @@ class Master_warganegara_model extends CI_Model {
 		{
 			try 
 			{
-				$query = $this->db->insert('master_warganegara', $object);
+				$query = $this->db->insert('master_pendidikan_terakhir', $object);
 				
 				if (!$query) 
 				{
@@ -42,7 +42,7 @@ class Master_warganegara_model extends CI_Model {
 				$returnData = array(
 					'status' => TRUE,
 					'return_title' => 'Berhasil',
-					'return_mesage' => 'Data Warga Negara Berhasil Ditambah',
+					'return_mesage' => 'Data Pendidikan Terakhir Berhasil Ditambah',
 					'return_color' => 'success'
 				);
 			} 
@@ -61,22 +61,22 @@ class Master_warganegara_model extends CI_Model {
 		return $returnData;
 	}
 
-	public function update_master_warganegara($nama_warganegara, $id_warganegara)
+	public function update_master_pendidikan_terakhir($nama_pendidikan_terakhir, $id_pendidikan_terakhir)
 	{
 		$object = array(
-			'nama_warganegara' => $nama_warganegara, 
+			'nama_pendidikan_terakhir' => $nama_pendidikan_terakhir, 
 		);
 
-		$this->db->where('nama_warganegara', $nama_warganegara);
-		$this->db->where('id_warganegara <>', $id_warganegara);
-		$cek = $this->db->get('master_warganegara');
+		$this->db->where('nama_pendidikan_terakhir', $nama_pendidikan_terakhir);
+		$this->db->where('id_pendidikan_terakhir <>', $id_pendidikan_terakhir);
+		$cek = $this->db->get('master_pendidikan_terakhir');
 
 		if ($cek->num_rows() > 0) 
 		{
 			$returnData = array(
 				'status' => FALSE,
 				'return_title' => 'Gagal Simpan!',
-				'return_mesage' => 'Sudah ada data "Nama Warga Negara" yang sama persis dengan yang anda input',
+				'return_mesage' => 'Sudah ada data "Nama Pendidikan Terakhir" yang sama persis dengan yang anda input',
 				'return_color' => 'danger'
 			);
 		}
@@ -84,8 +84,8 @@ class Master_warganegara_model extends CI_Model {
 		{
 			try 
 			{
-				$this->db->where('id_warganegara', $id_warganegara);
-				$query = $this->db->update('master_warganegara', $object);
+				$this->db->where('id_pendidikan_terakhir', $id_pendidikan_terakhir);
+				$query = $this->db->update('master_pendidikan_terakhir', $object);
 				
 				if (!$query) 
 				{
@@ -95,7 +95,7 @@ class Master_warganegara_model extends CI_Model {
 				$returnData = array(
 					'status' => TRUE,
 					'return_title' => 'Berhasil',
-					'return_mesage' => 'Data Warga Negara Berhasil Diubah',
+					'return_mesage' => 'Data Pendidikan Terakhir Berhasil Diubah',
 					'return_color' => 'success'
 				);
 			} 
@@ -114,10 +114,10 @@ class Master_warganegara_model extends CI_Model {
 		return $returnData;
 	}
 
-	public function delete_master_warganegara($id_warganegara)
+	public function delete_master_pendidikan_terakhir($id_pendidikan_terakhir)
 	{
-		$this->db->where('id_warganegara', $id_warganegara);
-		$query = $this->db->delete('master_warganegara');
+		$this->db->where('id_pendidikan_terakhir', $id_pendidikan_terakhir);
+		$query = $this->db->delete('master_pendidikan_terakhir');
 
 		if ($this->db->affected_rows() == 0) 
 		{
@@ -134,7 +134,7 @@ class Master_warganegara_model extends CI_Model {
 			$returnData = array(
 				'status' => TRUE,
 				'return_title' => 'Berhasil',
-				'return_mesage' => 'Berhasil menghapus data warga negara',
+				'return_mesage' => 'Berhasil menghapus data Pendidikan Terakhir',
 				'return_color' => 'success',
 				'return_status' => 'success'
 			);
@@ -145,5 +145,5 @@ class Master_warganegara_model extends CI_Model {
 
 }
 
-/* End of file Master_warganegara_model.php */
-/* Location: ./application/modules/master/models/Master_warganegara_model.php */
+/* End of file master_pendidikan_terakhir_model.php */
+/* Location: ./application/modules/master/models/master_pendidikan_terakhir_model.php */

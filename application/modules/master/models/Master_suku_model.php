@@ -116,25 +116,10 @@ class Master_suku_model extends CI_Model {
 
 	public function delete_master_suku($id_suku)
 	{
-		try 
-		{
-			$this->db->where('id_suku', $id_suku);
-			$query = $this->db->delete('master_suku');
+		$this->db->where('id_suku', $id_suku);
+		$query = $this->db->delete('master_suku');
 
-			if (!$query) 
-			{
-				throw new Exception($this->db->_error_message());
-			}
-
-			$returnData = array(
-				'status' => TRUE,
-				'return_title' => 'Berhasil',
-				'return_mesage' => 'Berhasil menghapus data Suku',
-				'return_color' => 'success',
-				'return_status' => 'success'
-			);
-		} 
-		catch (Exception $e) 
+		if ($this->db->affected_rows() == 0) 
 		{
 			$returnData = array(
 				'status' => FALSE,
@@ -142,6 +127,16 @@ class Master_suku_model extends CI_Model {
 				'return_mesage' => 'Terjadi kesalahan saat memproses data',
 				'return_color' => 'danger',
 				'return_status' => 'error'
+			);
+		}
+		else
+		{
+			$returnData = array(
+				'status' => TRUE,
+				'return_title' => 'Berhasil',
+				'return_mesage' => 'Berhasil menghapus data Suku',
+				'return_color' => 'success',
+				'return_status' => 'success'
 			);
 		}
 

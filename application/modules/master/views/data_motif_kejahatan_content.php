@@ -9,7 +9,7 @@
 <!-- daftar data pekerjaan -->
 <div class="panel panel-flat">
 	<div class="panel-heading">
-		<h5 class="panel-title">Daftar Data Suku</h5>
+		<h5 class="panel-title">Daftar Data Motif Kejahatan</h5>
 		<div class="heading-elements">
 			<ul class="icons-list">
         		<li><a data-action="reload"></a></li>
@@ -26,15 +26,15 @@
 		<thead>
 			<tr>
 				<th>#</th>
-				<th>Nama Suku</th>
+				<th>Nama Motif Kejahatan</th>
 				<th class="text-center">Aksi</th>
 			</tr>
 		</thead>
 		<tbody>
-		<?php $no = 0; foreach ($data_suku as $key => $value_suku): $no++;?>
+		<?php $no = 0; foreach ($data_motif_kejahatan as $key => $value_motif_kejahatan): $no++;?>
 			<tr>
 				<td><?= $no ?></td>
-				<td><?= $value_suku->nama_suku ?></td>
+				<td><?= $value_motif_kejahatan->nama_motif_kejahatan ?></td>
 				<td class="text-center">
 					<ul class="icons-list">
 						<li class="dropdown">
@@ -44,14 +44,14 @@
 
 							<ul class="dropdown-menu dropdown-menu-right">
 								<li>
-									<a href="#" data-toggle="modal" data-target="#modal-edit-<?= $value_suku->id_suku ?>">
+									<a href="#" data-toggle="modal" data-target="#modal-edit-<?= $value_motif_kejahatan->id_motif_kejahatan ?>">
 										<i class="icon-pencil4"></i> Edit
 									</a>
 								</li>
 								<li>
-									<a href="#" onclick="hapus<?= $value_suku->id_suku ?>()">
-										<input type="hidden" name="id_suku" 
-											id="id_suku-<?= $value_suku->id_suku ?>" value="<?= $value_suku->id_suku ?>">
+									<a href="#" onclick="hapus<?= $value_motif_kejahatan->id_motif_kejahatan ?>()">
+										<input type="hidden" name="id_motif_kejahatan" 
+											id="id_motif_kejahatan-<?= $value_motif_kejahatan->id_motif_kejahatan ?>" value="<?= $value_motif_kejahatan->id_motif_kejahatan ?>">
 										<i class="icon-trash"></i> Hapus
 									</a>
 								</li>
@@ -100,16 +100,16 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h5 class="modal-title">Tambah Data Suku</h5>
+				<h5 class="modal-title">Tambah Data Motif Kejahatan</h5>
 			</div>
 
-			<form action="<?=base_url('master/data_suku_tambah')?>" method="POST">
+			<form action="<?=base_url('master/data_motif_kejahatan_tambah')?>" method="POST">
 				<div class="modal-body">
 					<div class="form-group">
 						<div class="row">
 							<div class="col-sm-12">
-								<label>Nama Suku</label>
-								<input type="text" name="nama_suku" placeholder="isi nama suku" class="form-control" required="true">
+								<label>Nama Motif Kejahatan</label>
+								<input type="text" name="nama_motif_kejahatan" placeholder="isi nama Motif Kejahatan" class="form-control" required="true">
 							</div>
 						</div>
 					</div>
@@ -125,26 +125,25 @@
 </div>
 <!-- /modal tambah data -->
 
-<?php foreach ($data_suku as $key => $modal): ?>
+<?php foreach ($data_motif_kejahatan as $key => $modal): ?>
 	<!-- modal edit data -->
-	<div id="modal-edit-<?= $modal->id_suku ?>" class="modal fade">
+	<div id="modal-edit-<?= $modal->id_motif_kejahatan ?>" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h5 class="modal-title">Edit Data Suku</h5>
+					<h5 class="modal-title">Edit Data Motif Kejahatan</h5>
 				</div>
 
-				<form action="<?=base_url('master/data_suku_edit')?>" method="POST">
+				<form action="<?=base_url('master/data_motif_kejahatan_edit')?>" method="POST">
 					<div class="modal-body">
 						<div class="form-group">
 							<div class="row">
 								<div class="col-sm-12">
-									<label>Nama Suku</label>
-									<input type="text" name="nama_suku" placeholder="isi nama suku" class="form-control" 
-										required="true" value="<?= $modal->nama_suku ?>">
+									<label>Nama motif_kejahatan</label>
+									<input type="text" name="nama_motif_kejahatan" placeholder="isi nama Motif Kejahatan" class="form-control" required="true" value="<?= $modal->nama_motif_kejahatan ?>">
 
-									<input type="hidden" name="id" value="<?= $modal->id_suku ?>">
+									<input type="hidden" name="id" value="<?= $modal->id_motif_kejahatan ?>">
 								</div>
 							</div>
 						</div>
@@ -161,9 +160,9 @@
 	<!-- /modal edit data -->
 
 <script type="text/javascript">
-	function hapus<?= $modal->id_suku ?>() {
+	function hapus<?= $modal->id_motif_kejahatan ?>() {
 		swal({
-            title: "Ingin hapus data '<?= $modal->nama_suku ?>' ?",
+            title: "Ingin hapus data '<?= $modal->nama_motif_kejahatan ?>' ?",
             text: "Data anda akan dihapus secara permanen",
             type: "warning",
             showCancelButton: true,
@@ -174,15 +173,16 @@
             closeOnCancel: true
         },
         function() {
-        	var id_suku = document.getElementById('id_suku-<?= $modal->id_suku ?>').value;
-        	//console.log(id_suku);
+        	var id_motif_kejahatan = document.getElementById('id_motif_kejahatan-<?= $modal->id_motif_kejahatan ?>').value;
+        	//console.log(id_motif_kejahatan);
         	$.ajax({
         		type: "POST",
-        		url: "<?=base_url('master/data_suku_hapus')?>",
+        		url: "<?=base_url('master/data_motif_kejahatan_hapus')?>",
         		data: {
-        			id_suku: id_suku
+        			id_motif_kejahatan: id_motif_kejahatan
         		},
         		success: function(result) {
+        			console.log(result);
         			var data_parsed = JSON.parse(result);
 
         			swal({
@@ -191,7 +191,7 @@
         				type: data_parsed.return_status
         			},
         			function() {
-        				window.location.href = '<?=base_url('master/data_suku')?>';
+        				window.location.href = '<?=base_url('master/data_motif_kejahatan')?>';
         			});
         		},
         		error: function() {
