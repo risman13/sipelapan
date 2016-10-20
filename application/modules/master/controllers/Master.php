@@ -7,6 +7,8 @@ class Master extends MY_Controller {
 	{
 		parent::__construct();
 		$this->load->model('master_pekerjaan_model');
+		$this->load->model('master_suku_model');
+
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 		$this->_init();
@@ -100,6 +102,79 @@ class Master extends MY_Controller {
 		echo json_encode($response);
 	}
 	/* end master data pekerjaan */
+
+
+
+	/* begin master data suku */
+	public function data_suku()
+	{
+		$data = array(
+			'data_suku' => $this->master_suku_model->select_master_suku(), 
+		);
+
+		$this->load->view('data_suku_content', $data, FALSE);
+	}
+
+	public function data_suku_tambah()
+	{
+		$this->form_validation->set_rules('nama_suku', 'Nama Suku', 'trim|required|max_length[20]', 
+			array('required' => '%s Tidak boleh kosong', 'max_length' => 'Panjang maksimal %s 20 karakter'));
+
+		if ($this->form_validation->run() == FALSE) 
+		{
+			$_SESSION['ResponTitle']  = 'Gagal Simpan!';
+			$_SESSION['ResponMesage'] = validation_errors();
+			$_SESSION['ResponColor']  = 'danger';			
+			$this->session->mark_as_flash(array('ResponMesage', 'ResponColor', 'ResponTitle'));
+			redirect(base_url('master/data_suku'));
+		} 
+		else 
+		{
+			$response = $this->master_suku_model->insert_master_suku(strtoupper($this->input->post('nama_suku')));
+
+			$_SESSION['ResponTitle']  = $response['return_title'];
+			$_SESSION['ResponMesage'] = $response['return_mesage'];
+			$_SESSION['ResponColor']  = $response['return_color'];			
+			$this->session->mark_as_flash(array('ResponMesage', 'ResponColor', 'ResponTitle'));
+			redirect(base_url('master/data_suku'));
+		}
+	}
+
+	public function data_suku_edit()
+	{
+		$this->form_validation->set_rules('nama_suku', 'Nama Suku', 'trim|required|max_length[20]', 
+			array('required' => '%s Tidak boleh kosong', 'max_length' => 'Panjang maksimal %s 20 karakter'));
+
+		if ($this->form_validation->run() == FALSE) 
+		{
+			$_SESSION['ResponTitle']  = 'Gagal Simpan!';
+			$_SESSION['ResponMesage'] = validation_errors();
+			$_SESSION['ResponColor']  = 'danger';			
+			$this->session->mark_as_flash(array('ResponMesage', 'ResponColor', 'ResponTitle'));
+			redirect(base_url('master/data_suku'));
+		} 
+		else 
+		{
+			$response = $this->master_suku_model->update_master_suku(strtoupper($this->input->post('nama_suku')), 
+				$this->input->post('id'));
+
+			$_SESSION['ResponTitle']  = $response['return_title'];
+			$_SESSION['ResponMesage'] = $response['return_mesage'];
+			$_SESSION['ResponColor']  = $response['return_color'];			
+			$this->session->mark_as_flash(array('ResponMesage', 'ResponColor', 'ResponTitle'));
+			redirect(base_url('master/data_suku'));
+		}
+	}
+
+	public function data_suku_hapus()
+	{
+		$this->output->unset_template();
+
+		$response = $this->master_suku_model->delete_master_suku($this->input->post('id_suku'));
+
+		echo json_encode($response);
+	}
+	/* end master data suku */
 }
 
 /* End of file Dashboard.php */

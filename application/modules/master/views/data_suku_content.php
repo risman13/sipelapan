@@ -9,7 +9,7 @@
 <!-- daftar data pekerjaan -->
 <div class="panel panel-flat">
 	<div class="panel-heading">
-		<h5 class="panel-title">Daftar Data Pekerjaan</h5>
+		<h5 class="panel-title">Daftar Data Suku</h5>
 		<div class="heading-elements">
 			<ul class="icons-list">
         		<li><a data-action="reload"></a></li>
@@ -26,15 +26,15 @@
 		<thead>
 			<tr>
 				<th>#</th>
-				<th>Nama Jenis Pekerjaan</th>
+				<th>Nama Suku</th>
 				<th class="text-center">Aksi</th>
 			</tr>
 		</thead>
 		<tbody>
-		<?php $no = 0; foreach ($data_pekerjaan as $key => $value_pekerjaan): $no++;?>
+		<?php $no = 0; foreach ($data_suku as $key => $value_suku): $no++;?>
 			<tr>
 				<td><?= $no ?></td>
-				<td><?= $value_pekerjaan->nama_pekerjaan ?></td>
+				<td><?= $value_suku->nama_suku ?></td>
 				<td class="text-center">
 					<ul class="icons-list">
 						<li class="dropdown">
@@ -44,14 +44,14 @@
 
 							<ul class="dropdown-menu dropdown-menu-right">
 								<li>
-									<a href="#" data-toggle="modal" data-target="#modal-edit-<?= $value_pekerjaan->id_pekerjaan ?>">
+									<a href="#" data-toggle="modal" data-target="#modal-edit-<?= $value_suku->id_suku ?>">
 										<i class="icon-pencil4"></i> Edit
 									</a>
 								</li>
 								<li>
-									<a href="#" onclick="hapus<?= $value_pekerjaan->id_pekerjaan ?>()">
-										<input type="hidden" name="id_pekerjaan" 
-											id="id_pekerjaan-<?= $value_pekerjaan->id_pekerjaan ?>" value="<?= $value_pekerjaan->id_pekerjaan ?>">
+									<a href="#" onclick="hapus<?= $value_suku->id_suku ?>()">
+										<input type="hidden" name="id_suku" 
+											id="id_suku-<?= $value_suku->id_suku ?>" value="<?= $value_suku->id_suku ?>">
 										<i class="icon-trash"></i> Hapus
 									</a>
 								</li>
@@ -100,16 +100,16 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h5 class="modal-title">Tambah Data Pekerjaan</h5>
+				<h5 class="modal-title">Tambah Data Suku</h5>
 			</div>
 
-			<form action="<?=base_url('master/data_pekerjaan_tambah')?>" method="POST">
+			<form action="<?=base_url('master/data_suku_tambah')?>" method="POST">
 				<div class="modal-body">
 					<div class="form-group">
 						<div class="row">
 							<div class="col-sm-12">
-								<label>Nama Jenis Pekerjaan</label>
-								<input type="text" name="nama_pekerjaan" placeholder="isi nama pekerjaan" class="form-control" required="true">
+								<label>Nama Suku</label>
+								<input type="text" name="nama_suku" placeholder="isi nama suku" class="form-control" required="true">
 							</div>
 						</div>
 					</div>
@@ -125,9 +125,9 @@
 </div>
 <!-- /modal tambah data -->
 
-<?php foreach ($data_pekerjaan as $key => $modal): ?>
+<?php foreach ($data_suku as $key => $modal): ?>
 	<!-- modal edit data -->
-	<div id="modal-edit-<?= $modal->id_pekerjaan ?>" class="modal fade">
+	<div id="modal-edit-<?= $modal->id_suku ?>" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -135,15 +135,16 @@
 					<h5 class="modal-title">Tambah Data Pekerjaan</h5>
 				</div>
 
-				<form action="<?=base_url('master/data_pekerjaan_edit')?>" method="POST">
+				<form action="<?=base_url('master/data_suku_edit')?>" method="POST">
 					<div class="modal-body">
 						<div class="form-group">
 							<div class="row">
 								<div class="col-sm-12">
-									<label>Nama Jenis Pekerjaan</label>
-									<input type="text" name="nama_pekerjaan" placeholder="isi nama pekerjaan" class="form-control" required="true" value="<?= $modal->nama_pekerjaan ?>">
+									<label>Nama Suku</label>
+									<input type="text" name="nama_suku" placeholder="isi nama suku" class="form-control" 
+										required="true" value="<?= $modal->nama_suku ?>">
 
-									<input type="hidden" name="id" value="<?= $modal->id_pekerjaan ?>">
+									<input type="hidden" name="id" value="<?= $modal->id_suku ?>">
 								</div>
 							</div>
 						</div>
@@ -160,9 +161,9 @@
 	<!-- /modal edit data -->
 
 <script type="text/javascript">
-	function hapus<?= $modal->id_pekerjaan ?>() {
+	function hapus<?= $modal->id_suku ?>() {
 		swal({
-            title: "Ingin hapus data '<?= $modal->nama_pekerjaan ?>' ?",
+            title: "Ingin hapus data '<?= $modal->nama_suku ?>' ?",
             text: "Data anda akan dihapus secara permanen",
             type: "warning",
             showCancelButton: true,
@@ -173,13 +174,13 @@
             closeOnCancel: true
         },
         function() {
-        	var id_pekerjaan = document.getElementById('id_pekerjaan-<?= $modal->id_pekerjaan ?>').value;
-        	//console.log(id_pekerjaan);
+        	var id_suku = document.getElementById('id_suku-<?= $modal->id_suku ?>').value;
+        	//console.log(id_suku);
         	$.ajax({
         		type: "POST",
-        		url: "<?=base_url('master/data_pekerjaan_hapus')?>",
+        		url: "<?=base_url('master/data_suku_hapus')?>",
         		data: {
-        			id_pekerjaan: id_pekerjaan
+        			id_suku: id_suku
         		},
         		success: function(result) {
         			var data_parsed = JSON.parse(result);
@@ -190,7 +191,7 @@
         				type: data_parsed.return_status
         			},
         			function() {
-        				window.location.href = '<?=base_url('master/data_pekerjaan')?>';
+        				window.location.href = '<?=base_url('master/data_suku')?>';
         			});
         		},
         		error: function() {
