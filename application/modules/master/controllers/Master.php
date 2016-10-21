@@ -12,6 +12,7 @@ class Master extends MY_Controller {
 		$this->load->model('master_motif_kejahatan_model');
 		$this->load->model('master_pangkat_model');
 		$this->load->model('master_agama_model');
+		$this->load->model('master_warganegara_model');
 
 		$this->load->helper('form');
 		$this->load->library('form_validation');
@@ -471,6 +472,79 @@ class Master extends MY_Controller {
 		echo json_encode($response);
 	}
 	/* end master data agama */	
+
+///======================================================================================================
+
+	/* begin master data warganegara */
+	public function data_warganegara()
+	{
+		$data = array(
+			'data_warganegara' => $this->master_warganegara_model->select_master_warganegara(), 
+		);
+
+		$this->load->view('data_warganegara_content', $data, FALSE);
+	}
+
+	public function data_warganegara_tambah()
+	{
+		$this->form_validation->set_rules('nama_warganegara', 'Nama Warga Negara', 'trim|required|max_length[20]', 
+			array('required' => '%s Tidak boleh kosong', 'max_length' => 'Panjang maksimal %s 20 karakter'));
+
+		if ($this->form_validation->run() == FALSE) 
+		{
+			$_SESSION['ResponTitle']  = 'Gagal Simpan!';
+			$_SESSION['ResponMesage'] = validation_errors();
+			$_SESSION['ResponColor']  = 'danger';			
+			$this->session->mark_as_flash(array('ResponMesage', 'ResponColor', 'ResponTitle'));
+			redirect(base_url('master/data_warganegara'));
+		} 
+		else 
+		{
+			$response = $this->master_warganegara_model->insert_master_warganegara(strtoupper($this->input->post('nama_warganegara')));
+
+			$_SESSION['ResponTitle']  = $response['return_title'];
+			$_SESSION['ResponMesage'] = $response['return_mesage'];
+			$_SESSION['ResponColor']  = $response['return_color'];			
+			$this->session->mark_as_flash(array('ResponMesage', 'ResponColor', 'ResponTitle'));
+			redirect(base_url('master/data_warganegara'));
+		}
+	}
+
+	public function data_warganegara_edit()
+	{
+		$this->form_validation->set_rules('nama_warganegara', 'Nama Warganegara', 'trim|required|max_length[20]', 
+			array('required' => '%s Tidak boleh kosong', 'max_length' => 'Panjang maksimal %s 20 karakter'));
+
+		if ($this->form_validation->run() == FALSE) 
+		{
+			$_SESSION['ResponTitle']  = 'Gagal Simpan!';
+			$_SESSION['ResponMesage'] = validation_errors();
+			$_SESSION['ResponColor']  = 'danger';			
+			$this->session->mark_as_flash(array('ResponMesage', 'ResponColor', 'ResponTitle'));
+			redirect(base_url('master/data_warganegara'));
+		} 
+		else 
+		{
+			$response = $this->master_warganegara_model->update_master_warganegara(strtoupper($this->input->post('nama_warganegara')), 
+				$this->input->post('id'));
+
+			$_SESSION['ResponTitle']  = $response['return_title'];
+			$_SESSION['ResponMesage'] = $response['return_mesage'];
+			$_SESSION['ResponColor']  = $response['return_color'];			
+			$this->session->mark_as_flash(array('ResponMesage', 'ResponColor', 'ResponTitle'));
+			redirect(base_url('master/data_warganegara'));
+		}
+	}
+
+	public function data_warganegara_hapus()
+	{
+		$this->output->unset_template();
+
+		$response = $this->master_warganegara_model->delete_master_warganegara($this->input->post('id_warganegara'));
+
+		echo json_encode($response);
+	}
+	/* end master data warganegara */	
 }
 
 /* End of file Dashboard.php */
