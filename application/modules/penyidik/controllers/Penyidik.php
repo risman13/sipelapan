@@ -6,6 +6,7 @@ class Penyidik extends MY_Controller {
 	public function __construct()
 	{
 		parent::__construct();
+		$this->load->model('penyidik_model');
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 		$this->_init();
@@ -35,6 +36,32 @@ class Penyidik extends MY_Controller {
 
 		$this->load->view('penyidik_lihat_data_content', $data, FALSE);
 	}
+
+	public function ajax_list()
+    {
+    	$this->output->unset_template();
+
+        $list = $this->penyidik_model->get_datatables();
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($list as $customers) {
+            $no++;
+            $row = array();
+            $row[] = $no;
+            $row[] = $customers->nama_pekerjaan;
+ 
+            $data[] = $row;
+        }
+ 
+        $output = array(
+                        "draw" => $_POST['draw'],
+                        "recordsTotal" => $this->penyidik_model->count_all(),
+                        "recordsFiltered" => $this->penyidik_model->count_filtered(),
+                        "data" => $data,
+                );
+        //output to json format
+        echo json_encode($output);
+    }
 
 }
 

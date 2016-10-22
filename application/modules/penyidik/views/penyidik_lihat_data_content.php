@@ -22,7 +22,7 @@
 	</div>
 
 	<!-- table -->
-	<table class="table datatable-basic">
+	<table class="table" id="table">
 		<thead>
 			<tr>
 				<th>#</th>
@@ -31,36 +31,6 @@
 			</tr>
 		</thead>
 		<tbody>
-		<?php $no = 0; foreach ($data_agama as $key => $value_agama): $no++;?>
-			<tr>
-				<td><?= $no ?></td>
-				<td><?= $value_agama->nama_agama ?></td>
-				<td class="text-center">
-					<ul class="icons-list">
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-								<i class="icon-menu9"></i>
-							</a>
-
-							<ul class="dropdown-menu dropdown-menu-right">
-								<li>
-									<a href="#" data-toggle="modal" data-target="#modal-edit-<?= $value_agama->id_agama ?>">
-										<i class="icon-pencil4"></i> Edit
-									</a>
-								</li>
-								<li>
-									<a href="#" onclick="hapus<?= $value_agama->id_agama ?>()">
-										<input type="hidden" name="id_agama" 
-											id="id_agama-<?= $value_agama->id_agama ?>" value="<?= $value_agama->id_agama ?>">
-										<i class="icon-trash"></i> Hapus
-									</a>
-								</li>
-							</ul>
-						</li>
-					</ul>
-				</td>
-			</tr>
-		<?php endforeach ?>
 		</tbody>
 	</table>
 	<!-- /table -->
@@ -70,7 +40,17 @@
 
 <script type="text/javascript">
 	// Basic initialization
-	$('.datatable-basic').DataTable({
+	$('#table').DataTable({
+		"processing": true,
+        "serverSide": true,
+        "ajax": {
+            "url": "<?= base_url('penyidik/ajax_list') ?>",
+            "type": "POST"
+        },
+        "columnDefs": [ {
+            "targets": -1,
+            "defaultContent": "<button>Click!</button>"
+        } ],
 		autoWidth: true,
 		dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
 	    language: {
@@ -124,82 +104,3 @@
 	</div>
 </div>
 <!-- /modal tambah data -->
-
-<?php foreach ($data_agama as $key => $modal): ?>
-	<!-- modal edit data -->
-	<div id="modal-edit-<?= $modal->id_agama ?>" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h5 class="modal-title">Edit Data Agama</h5>
-				</div>
-
-				<form action="<?=base_url('master/data_agama_edit')?>" method="POST">
-					<div class="modal-body">
-						<div class="form-group">
-							<div class="row">
-								<div class="col-sm-12">
-									<label>Nama agama</label>
-									<input type="text" name="nama_agama" placeholder="isi nama agama" class="form-control" required="true" value="<?= $modal->nama_agama ?>">
-
-									<input type="hidden" name="id" value="<?= $modal->id_agama ?>">
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="modal-footer">
-						<button type="button" class="btn btn-link" data-dismiss="modal">Keluar</button>
-						<button type="submit" class="btn btn-primary">Update</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-	<!-- /modal edit data -->
-
-<script type="text/javascript">
-	function hapus<?= $modal->id_agama ?>() {
-		swal({
-            title: "Ingin hapus data '<?= $modal->nama_agama ?>' ?",
-            text: "Data anda akan dihapus secara permanen",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#EF5350",
-            confirmButtonText: "Ya, hapus data",
-            cancelButtonText: "Batal",
-            closeOnConfirm: false,
-            closeOnCancel: true
-        },
-        function() {
-        	var id_agama = document.getElementById('id_agama-<?= $modal->id_agama ?>').value;
-        	//console.log(id_agama);
-        	$.ajax({
-        		type: "POST",
-        		url: "<?=base_url('master/data_agama_hapus')?>",
-        		data: {
-        			id_agama: id_agama
-        		},
-        		success: function(result) {
-        			console.log(result);
-        			var data_parsed = JSON.parse(result);
-
-        			swal({
-        				title: data_parsed.return_title,
-        				text: data_parsed.return_mesage,
-        				type: data_parsed.return_status
-        			},
-        			function() {
-        				window.location.href = '<?=base_url('master/data_agama')?>';
-        			});
-        		},
-        		error: function() {
-        			swal("Error!", "Terjadi kesalahan request", "error");
-        		}
-        	});
-        	//swal("Deleted!", "Your imaginary file has been deleted.", "success"); 
-        });
-	}
-</script>
-<?php endforeach ?>
