@@ -41,26 +41,13 @@ class Penyidik extends MY_Controller {
     {
     	$this->output->unset_template();
 
-        $list = $this->penyidik_model->get_datatables();
-        $data = array();
-        $no = $_POST['start'];
-        foreach ($list as $customers) {
-            $no++;
-            $row = array();
-            $row[] = $no;
-            $row[] = $customers->nama_pekerjaan;
- 
-            $data[] = $row;
-        }
- 
-        $output = array(
-                        "draw" => $_POST['draw'],
-                        "recordsTotal" => $this->penyidik_model->count_all(),
-                        "recordsFiltered" => $this->penyidik_model->count_filtered(),
-                        "data" => $data,
-                );
-        //output to json format
-        echo json_encode($output);
+    	$this->load->library('Datatable', array('model' => 'penyidik_dt_model', 'rowIdCol' => 'id_pekerjaan'));
+
+    	$jsonArray = $this->datatable->datatableJson(array());		
+
+		$this->output->set_header("Pragma: no-cache");
+        $this->output->set_header("Cache-Control: no-store, no-cache");
+        $this->output->set_content_type('application/json')->set_output(json_encode($jsonArray));
     }
 
 }

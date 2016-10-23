@@ -25,9 +25,9 @@
 	<table class="table" id="table">
 		<thead>
 			<tr>
-				<th>#</th>
+				<th>ID Pekerjaan</th>
 				<th>Nama Agama</th>
-				<th class="text-center">Aksi</th>
+				<th>Aksi</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -40,18 +40,26 @@
 
 <script type="text/javascript">
 	// Basic initialization
-	$('#table').DataTable({
+	var dt = $('#table').DataTable({
 		"processing": true,
         "serverSide": true,
         "ajax": {
             "url": "<?= base_url('penyidik/ajax_list') ?>",
             "type": "POST"
         },
-        "columnDefs": [ {
-            "targets": -1,
-            "defaultContent": "<button>Click!</button>"
-        } ],
+        columns: [
+        	{ data: "A.id_pekerjaan" },
+	        { data: "A.nama_pekerjaan" },
+	        {
+	        	data: "A.id_pekerjaan",
+	        	render: function (data, type, row) {
+	        		return '<ul class="icons-list"><li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu9"></i></a><ul class="dropdown-menu dropdown-menu-right"><li><a href="#" data-toggle="modal" data-target="#modal-edit-'+data+'"><i class="icon-pencil4"></i> Edit</a></li><li><a href="#" onclick="hapusA.id_pekerjaan()"><input type="hidden" name="id_agama" id="id_agama-A.id_pekerjaan" value="A.id_pekerjaan"><i class="icon-trash"></i> Hapus</a></li></ul></li></ul>'
+	        	}
+	        }
+        ],
 		autoWidth: true,
+		scrollY: 450,
+	    scroller: true,
 		dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
 	    language: {
 	        search: '<span>Filter:</span> _INPUT_',
@@ -65,6 +73,12 @@
 	        $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').removeClass('dropup');
 	    }
 	});
+
+	$('#myTable').on( 'click', 'tr', function () {
+	    var id = table.row( this ).id();
+	 
+	    alert( 'Clicked row id '+id );
+	} );
 
 	$('.dataTables_filter input[type=search]').attr('placeholder','Ketik untuk pencarian...');
 

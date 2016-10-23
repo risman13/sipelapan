@@ -14,6 +14,8 @@ class Master extends MY_Controller {
 		$this->load->model('master_agama_model');
 		$this->load->model('master_warganegara_model');
 		$this->load->model('master_grup_wilayah_model');
+		$this->load->model('master_polres_model');
+		$this->load->model('master_satuan_model');
 		$this->load->model('master_kategori_tkp_model');
 
 		$this->load->helper('form');
@@ -689,6 +691,166 @@ class Master extends MY_Controller {
 		$this->output->unset_template();
 
 		$response = $this->master_kategori_tkp_model->delete_master_kategori_tkp($this->input->post('id_kategori_tkp'));
+
+		echo json_encode($response);
+	}
+	/* end master data grupwilayah */
+
+	///======================================================================================================
+
+	/* begin master data POLRES */
+	public function data_polres()
+	{
+		$data = array(
+			'data_polres' => $this->master_polres_model->select_master_polres(),
+			'data_grup_wilayah' => $this->master_grup_wilayah_model->select_master_grup_wilayah(), 
+		);
+
+		$this->load->view('data_polres_content', $data, FALSE);
+	}
+
+	public function data_polres_tambah()
+	{
+		$this->form_validation->set_rules('nama_polres', 'Nama POLRES', 'trim|required|max_length[20]', 
+			array('required' => '%s Tidak boleh kosong', 'max_length' => 'Panjang maksimal %s 20 karakter'));
+		$this->form_validation->set_rules('grup_wilayah', 'Grup Wilayah', 'trim|required|integer', 
+			array('required' => '%s Tidak boleh kosong', 'integer' => 'Data %s tidak valid'));
+
+
+		if ($this->form_validation->run() == FALSE) 
+		{
+			$_SESSION['ResponTitle']  = 'Gagal Simpan!';
+			$_SESSION['ResponMesage'] = validation_errors();
+			$_SESSION['ResponColor']  = 'danger';			
+			$this->session->mark_as_flash(array('ResponMesage', 'ResponColor', 'ResponTitle'));
+			redirect(base_url('master/data_polres'));
+		} 
+		else 
+		{
+			$response = $this->master_polres_model->insert_master_polres(strtoupper($this->input->post('nama_polres')), 
+				$this->input->post('grup_wilayah'));
+
+			$_SESSION['ResponTitle']  = $response['return_title'];
+			$_SESSION['ResponMesage'] = $response['return_mesage'];
+			$_SESSION['ResponColor']  = $response['return_color'];			
+			$this->session->mark_as_flash(array('ResponMesage', 'ResponColor', 'ResponTitle'));
+			redirect(base_url('master/data_polres'));
+		}
+	}
+
+	public function data_polres_edit()
+	{
+		$this->form_validation->set_rules('nama_polres', 'Nama POLRES', 'trim|required|max_length[20]', 
+			array('required' => '%s Tidak boleh kosong', 'max_length' => 'Panjang maksimal %s 20 karakter'));
+		$this->form_validation->set_rules('grup_wilayah', 'Grup Wilayah', 'trim|required|integer', 
+			array('required' => '%s Tidak boleh kosong', 'integer' => 'Data %s tidak valid'));
+
+		if ($this->form_validation->run() == FALSE) 
+		{
+			$_SESSION['ResponTitle']  = 'Gagal Simpan!';
+			$_SESSION['ResponMesage'] = validation_errors();
+			$_SESSION['ResponColor']  = 'danger';			
+			$this->session->mark_as_flash(array('ResponMesage', 'ResponColor', 'ResponTitle'));
+			redirect(base_url('master/data_polres'));
+		} 
+		else 
+		{
+			$response = $this->master_polres_model->update_master_polres(strtoupper($this->input->post('nama_polres')), 
+				$this->input->post('id'), $this->input->post('grup_wilayah'));
+
+			$_SESSION['ResponTitle']  = $response['return_title'];
+			$_SESSION['ResponMesage'] = $response['return_mesage'];
+			$_SESSION['ResponColor']  = $response['return_color'];			
+			$this->session->mark_as_flash(array('ResponMesage', 'ResponColor', 'ResponTitle'));
+			redirect(base_url('master/data_polres'));
+		}
+	}
+
+	public function data_polres_hapus()
+	{
+		$this->output->unset_template();
+
+		$response = $this->master_polres_model->delete_master_polres($this->input->post('id_polres'));
+
+		echo json_encode($response);
+	}
+	/* end master data grupwilayah */
+
+///======================================================================================================
+
+	/* begin master data satuan */
+	public function data_satuan()
+	{
+		$data = array(
+			'data_satuan' => $this->master_satuan_model->select_master_satuan(),
+			'data_polres' => $this->master_polres_model->select_master_polres(), 
+		);
+
+		$this->load->view('data_satuan_content', $data, FALSE);
+	}
+
+	public function data_satuan_tambah()
+	{
+		$this->form_validation->set_rules('nama_satuan', 'Nama satuan', 'trim|required|max_length[20]', 
+			array('required' => '%s Tidak boleh kosong', 'max_length' => 'Panjang maksimal %s 20 karakter'));
+		$this->form_validation->set_rules('polres', 'POLRES', 'trim|required|integer', 
+			array('required' => '%s Tidak boleh kosong', 'integer' => 'Data %s tidak valid'));
+
+
+		if ($this->form_validation->run() == FALSE) 
+		{
+			$_SESSION['ResponTitle']  = 'Gagal Simpan!';
+			$_SESSION['ResponMesage'] = validation_errors();
+			$_SESSION['ResponColor']  = 'danger';			
+			$this->session->mark_as_flash(array('ResponMesage', 'ResponColor', 'ResponTitle'));
+			redirect(base_url('master/data_satuan'));
+		} 
+		else 
+		{
+			$response = $this->master_satuan_model->insert_master_satuan(strtoupper($this->input->post('nama_satuan')), 
+				$this->input->post('polres'));
+
+			$_SESSION['ResponTitle']  = $response['return_title'];
+			$_SESSION['ResponMesage'] = $response['return_mesage'];
+			$_SESSION['ResponColor']  = $response['return_color'];			
+			$this->session->mark_as_flash(array('ResponMesage', 'ResponColor', 'ResponTitle'));
+			redirect(base_url('master/data_satuan'));
+		}
+	}
+
+	public function data_satuan_edit()
+	{
+		$this->form_validation->set_rules('nama_satuan', 'Nama satuan', 'trim|required|max_length[20]', 
+			array('required' => '%s Tidak boleh kosong', 'max_length' => 'Panjang maksimal %s 20 karakter'));
+		$this->form_validation->set_rules('polres', 'POLRES', 'trim|required|integer', 
+			array('required' => '%s Tidak boleh kosong', 'integer' => 'Data %s tidak valid'));
+
+		if ($this->form_validation->run() == FALSE) 
+		{
+			$_SESSION['ResponTitle']  = 'Gagal Simpan!';
+			$_SESSION['ResponMesage'] = validation_errors();
+			$_SESSION['ResponColor']  = 'danger';			
+			$this->session->mark_as_flash(array('ResponMesage', 'ResponColor', 'ResponTitle'));
+			redirect(base_url('master/data_satuan'));
+		} 
+		else 
+		{
+			$response = $this->master_satuan_model->update_master_satuan(strtoupper($this->input->post('nama_satuan')), 
+				$this->input->post('id'), $this->input->post('polres'));
+
+			$_SESSION['ResponTitle']  = $response['return_title'];
+			$_SESSION['ResponMesage'] = $response['return_mesage'];
+			$_SESSION['ResponColor']  = $response['return_color'];			
+			$this->session->mark_as_flash(array('ResponMesage', 'ResponColor', 'ResponTitle'));
+			redirect(base_url('master/data_satuan'));
+		}
+	}
+
+	public function data_satuan_hapus()
+	{
+		$this->output->unset_template();
+
+		$response = $this->master_satuan_model->delete_master_satuan($this->input->post('id_satuan'));
 
 		echo json_encode($response);
 	}
