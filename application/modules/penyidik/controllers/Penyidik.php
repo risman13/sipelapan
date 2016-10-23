@@ -25,18 +25,6 @@ class Penyidik extends MY_Controller {
 		$this->output->section('footer', '__template/__backend/footer');
 	}
 
-	public function index()
-	{
-		
-	}
-
-	public function lihat_data()
-	{
-		$data = array('');
-
-		$this->load->view('penyidik_lihat_data_content', $data, FALSE);
-	}
-
 	public function ajax_list()
     {
     	$this->output->unset_template();
@@ -49,6 +37,25 @@ class Penyidik extends MY_Controller {
         $this->output->set_header("Cache-Control: no-store, no-cache");
         $this->output->set_content_type('application/json')->set_output(json_encode($jsonArray));
     }
+
+	public function index()
+	{
+		
+	}
+
+	public function lihat_data()
+	{
+		$data = array('');
+
+		$this->load->view('penyidik_lihat_data_content', $data, FALSE);
+	}
+
+	public function tambah_data()
+	{
+		$data = array('');
+
+		$this->load->view('penyidik_tambah_data_content', $data, FALSE);
+	}
 
 }
 
