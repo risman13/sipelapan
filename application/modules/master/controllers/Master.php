@@ -14,6 +14,7 @@ class Master extends MY_Controller {
 		$this->load->model('master_agama_model');
 		$this->load->model('master_warganegara_model');
 		$this->load->model('master_grup_wilayah_model');
+		$this->load->model('master_kategori_tkp_model');
 
 		$this->load->helper('form');
 		$this->load->library('form_validation');
@@ -615,6 +616,79 @@ class Master extends MY_Controller {
 		$this->output->unset_template();
 
 		$response = $this->master_grup_wilayah_model->delete_master_grup_wilayah($this->input->post('id_grup_wilayah'));
+
+		echo json_encode($response);
+	}
+	/* end master data grupwilayah */	
+
+	///======================================================================================================
+
+	/* begin master data kategori tkp */
+	public function data_kategori_tkp()
+	{
+		$data = array(
+			'data_kategori_tkp' => $this->master_kategori_tkp_model->select_master_kategori_tkp(), 
+		);
+
+		$this->load->view('data_kategori_tkp_content', $data, FALSE);
+	}
+
+	public function data_kategori_tkp_tambah()
+	{
+		$this->form_validation->set_rules('nama_kategori_tkp', 'Nama Kategori TKP', 'trim|required|max_length[20]', 
+			array('required' => '%s Tidak boleh kosong', 'max_length' => 'Panjang maksimal %s 20 karakter'));
+
+		if ($this->form_validation->run() == FALSE) 
+		{
+			$_SESSION['ResponTitle']  = 'Gagal Simpan!';
+			$_SESSION['ResponMesage'] = validation_errors();
+			$_SESSION['ResponColor']  = 'danger';			
+			$this->session->mark_as_flash(array('ResponMesage', 'ResponColor', 'ResponTitle'));
+			redirect(base_url('master/data_kategori_tkp'));
+		} 
+		else 
+		{
+			$response = $this->master_kategori_tkp_model->insert_master_kategori_tkp(strtoupper($this->input->post('nama_kategori_tkp')));
+
+			$_SESSION['ResponTitle']  = $response['return_title'];
+			$_SESSION['ResponMesage'] = $response['return_mesage'];
+			$_SESSION['ResponColor']  = $response['return_color'];			
+			$this->session->mark_as_flash(array('ResponMesage', 'ResponColor', 'ResponTitle'));
+			redirect(base_url('master/data_kategori_tkp'));
+		}
+	}
+
+	public function data_kategori_tkp_edit()
+	{
+		$this->form_validation->set_rules('nama_kategori_tkp', 'Nama Kategori TKP', 'trim|required|max_length[20]', 
+			array('required' => '%s Tidak boleh kosong', 'max_length' => 'Panjang maksimal %s 20 karakter'));
+
+		if ($this->form_validation->run() == FALSE) 
+		{
+			$_SESSION['ResponTitle']  = 'Gagal Simpan!';
+			$_SESSION['ResponMesage'] = validation_errors();
+			$_SESSION['ResponColor']  = 'danger';			
+			$this->session->mark_as_flash(array('ResponMesage', 'ResponColor', 'ResponTitle'));
+			redirect(base_url('master/data_kategori_tkp'));
+		} 
+		else 
+		{
+			$response = $this->master_kategori_tkp_model->update_master_kategori_tkp(strtoupper($this->input->post('nama_kategori_tkp')), 
+				$this->input->post('id'));
+
+			$_SESSION['ResponTitle']  = $response['return_title'];
+			$_SESSION['ResponMesage'] = $response['return_mesage'];
+			$_SESSION['ResponColor']  = $response['return_color'];			
+			$this->session->mark_as_flash(array('ResponMesage', 'ResponColor', 'ResponTitle'));
+			redirect(base_url('master/data_kategori_tkp'));
+		}
+	}
+
+	public function data_kategori_tkp_hapus()
+	{
+		$this->output->unset_template();
+
+		$response = $this->master_kategori_tkp_model->delete_master_kategori_tkp($this->input->post('id_kategori_tkp'));
 
 		echo json_encode($response);
 	}
