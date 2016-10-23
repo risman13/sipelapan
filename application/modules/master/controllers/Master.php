@@ -13,6 +13,7 @@ class Master extends MY_Controller {
 		$this->load->model('master_pangkat_model');
 		$this->load->model('master_agama_model');
 		$this->load->model('master_warganegara_model');
+		$this->load->model('master_grup_wilayah_model');
 
 		$this->load->helper('form');
 		$this->load->library('form_validation');
@@ -545,6 +546,79 @@ class Master extends MY_Controller {
 		echo json_encode($response);
 	}
 	/* end master data warganegara */	
+
+///======================================================================================================
+
+	/* begin master data grup wilayah */
+	public function data_grup_wilayah()
+	{
+		$data = array(
+			'data_grup_wilayah' => $this->master_grup_wilayah_model->select_master_grup_wilayah(), 
+		);
+
+		$this->load->view('data_grup_wilayah_content', $data, FALSE);
+	}
+
+	public function data_grup_wilayah_tambah()
+	{
+		$this->form_validation->set_rules('nama_grup_wilayah', 'Nama Grup Wilayah', 'trim|required|max_length[20]', 
+			array('required' => '%s Tidak boleh kosong', 'max_length' => 'Panjang maksimal %s 20 karakter'));
+
+		if ($this->form_validation->run() == FALSE) 
+		{
+			$_SESSION['ResponTitle']  = 'Gagal Simpan!';
+			$_SESSION['ResponMesage'] = validation_errors();
+			$_SESSION['ResponColor']  = 'danger';			
+			$this->session->mark_as_flash(array('ResponMesage', 'ResponColor', 'ResponTitle'));
+			redirect(base_url('master/data_grup_wilayah'));
+		} 
+		else 
+		{
+			$response = $this->master_grup_wilayah_model->insert_master_grup_wilayah(strtoupper($this->input->post('nama_grup_wilayah')));
+
+			$_SESSION['ResponTitle']  = $response['return_title'];
+			$_SESSION['ResponMesage'] = $response['return_mesage'];
+			$_SESSION['ResponColor']  = $response['return_color'];			
+			$this->session->mark_as_flash(array('ResponMesage', 'ResponColor', 'ResponTitle'));
+			redirect(base_url('master/data_grup_wilayah'));
+		}
+	}
+
+	public function data_grup_wilayah_edit()
+	{
+		$this->form_validation->set_rules('nama_grup_wilayah', 'Nama Grup Wilayah', 'trim|required|max_length[20]', 
+			array('required' => '%s Tidak boleh kosong', 'max_length' => 'Panjang maksimal %s 20 karakter'));
+
+		if ($this->form_validation->run() == FALSE) 
+		{
+			$_SESSION['ResponTitle']  = 'Gagal Simpan!';
+			$_SESSION['ResponMesage'] = validation_errors();
+			$_SESSION['ResponColor']  = 'danger';			
+			$this->session->mark_as_flash(array('ResponMesage', 'ResponColor', 'ResponTitle'));
+			redirect(base_url('master/data_grup_wilayah'));
+		} 
+		else 
+		{
+			$response = $this->master_grup_wilayah_model->update_master_grup_wilayah(strtoupper($this->input->post('nama_grup_wilayah')), 
+				$this->input->post('id'));
+
+			$_SESSION['ResponTitle']  = $response['return_title'];
+			$_SESSION['ResponMesage'] = $response['return_mesage'];
+			$_SESSION['ResponColor']  = $response['return_color'];			
+			$this->session->mark_as_flash(array('ResponMesage', 'ResponColor', 'ResponTitle'));
+			redirect(base_url('master/data_grup_wilayah'));
+		}
+	}
+
+	public function data_grup_wilayah_hapus()
+	{
+		$this->output->unset_template();
+
+		$response = $this->master_grup_wilayah_model->delete_master_grup_wilayah($this->input->post('id_grup_wilayah'));
+
+		echo json_encode($response);
+	}
+	/* end master data grupwilayah */	
 }
 
 /* End of file Dashboard.php */
