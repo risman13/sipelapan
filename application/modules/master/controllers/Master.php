@@ -673,7 +673,7 @@ class Master extends MY_Controller {
 		} 
 		else 
 		{
-			$response = $this->master_kategori_tkp_model->update_kategori_tkp_wilayah(strtoupper($this->input->post('nama_kategori_tkp')), 
+			$response = $this->master_kategori_tkp_model->update_master_kategori_tkp(strtoupper($this->input->post('nama_kategori_tkp')), 
 				$this->input->post('id'));
 
 			$_SESSION['ResponTitle']  = $response['return_title'];
