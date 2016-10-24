@@ -16,6 +16,12 @@
 	<link href="<?=base_url('assets/css/colors.min.css')?>" rel="stylesheet" type="text/css">
 	<!-- /global stylesheets -->
 
+	<!-- dt data path -->
+	<script type="text/javascript">
+		var DT_DATA_PATH = '<?= base_url() ?>';
+	</script>
+	<!-- /dt data path -->
+
 	<!-- Add stylesheets -->
 	<?php foreach ($css as $file): ?>
 	<link rel="stylesheet" href="<?= $file; ?>" type="text/css" /><br>
