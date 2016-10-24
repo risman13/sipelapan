@@ -153,6 +153,22 @@ class Master_polres_model extends CI_Model {
 		return $returnData;
 	}
 
+	public function select_master_polres_by($id_grup_wilayah)
+	{
+		$this->db->select('
+			A.nama_grup_wilayah,
+			B.id_polres,
+			B.id_grup_wilayah,
+			B.nama_polres
+		');
+		$this->db->from('master_grup_wilayah AS A');
+		$this->db->join('master_polres AS B', 'A.id_grup_wilayah = B.id_grup_wilayah', 'inner');
+		$this->db->where('A.id_grup_wilayah', $id_grup_wilayah);
+		$query = $this->db->get('');
+
+		return $query->result();
+	}
+
 }
 
 /* End of file Master_polres_model.php */

@@ -13,66 +13,67 @@ class Penyidik_model extends CI_Model {
         parent::__construct();
         $this->load->database();
     }
- 
-    private function _get_datatables_query()
+
+    public function insert_penyidik($id_satuan, $id_pangkat, $nama_lengkap, $nrp, $jabatan, $no_hp, $email, $id_pendidikan_terakhir, $tahun_ijazah, $gelar, $nama_perguruan_tinggi, $foto_file, $flag_aktif)
     {
-         
-        $this->db->from($this->table);
- 
-        $i = 0;
-     
-        foreach ($this->column_search as $item) // loop column 
+        $object = array(
+            'id_satuan' => $id_satuan, 
+            'id_pangkat' => $id_pangkat, 
+            'nama_lengkap' => $nama_lengkap, 
+            'nrp' => $nrp, 
+            'jabatan' => $jabatan, 
+            'no_hp' => $no_hp, 
+            'email' => $email, 
+            'id_pendidikan_terakhir' => $id_pendidikan_terakhir, 
+            'tahun_ijazah' => $tahun_ijazah, 
+            'gelar' => $gelar, 
+            'nama_perguruan_tinggi' => $nama_perguruan_tinggi, 
+            'foto_file' => $foto_file, 
+            'flag_aktif' => $flag_aktif,
+        );
+
+        $this->db->where('nrp', $nrp);
+        $this->db->or_where('nama_lengkap', $nama_lengkap);
+        $this->db->or_where('no_hp', $no_hp);
+        $this->db->or_where('email', $email);
+        $cek = $this->db->get('penyidik');
+
+        if ($cek->num_rows() > 0) 
         {
-            if($_POST['search']['value']) // if datatable send POST for search
-            {
-                 
-                if($i===0) // first loop
-                {
-                    $this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
-                    $this->db->like($item, $_POST['search']['value']);
-                }
-                else
-                {
-                    $this->db->or_like($item, $_POST['search']['value']);
-                }
- 
-                if(count($this->column_search) - 1 == $i) //last loop
-                    $this->db->group_end(); //close bracket
-            }
-            $i++;
-        }
-         
-        if(isset($_POST['order'])) // here order processing
-        {
-            $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+           $returnData = array(
+                'status' => FALSE,
+                'return_title' => 'Gagal Simpan!',
+                'return_mesage' => 'Komponen Nama, NRP, No. HP, Email tidak boleh sama dengan penyidik lain',
+                'return_color' => 'danger'
+            );
         } 
-        else if(isset($this->order))
+        else 
         {
-            $order = $this->order;
-            $this->db->order_by(key($order), $order[key($order)]);
+            $query = $this->db->insert('penyidik', $object);
+
+            if (!$query) 
+            {
+               $returnData = array(
+                    'status' => FALSE,
+                    'return_title' => 'Gagal Simpan!',
+                    'return_mesage' => 'Terjadi kesalahan saat memproses data',
+                    'return_error' => $this->db->_error_message(),
+                    'return_color' => 'danger'
+                );
+            } 
+            else 
+            {
+                $returnData = array(
+                    'status' => TRUE,
+                    'return_title' => 'Berhasil',
+                    'return_mesage' => 'Data Penyidik Berhasil Ditambah',
+                    'return_color' => 'success'
+                );
+            }
+            
         }
-    }
- 
-    function get_datatables()
-    {
-        $this->_get_datatables_query();
-        if($_POST['length'] != -1)
-        $this->db->limit($_POST['length'], $_POST['start']);
-        $query = $this->db->get();
-        return $query->result();
-    }
- 
-    function count_filtered()
-    {
-        $this->_get_datatables_query();
-        $query = $this->db->get();
-        return $query->num_rows();
-    }
- 
-    public function count_all()
-    {
-        $this->db->from($this->table);
-        return $this->db->count_all_results();
+
+        return $returnData;        
     }
 
 }

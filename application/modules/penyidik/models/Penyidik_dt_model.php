@@ -5,22 +5,30 @@ class Penyidik_dt_model extends CI_Model implements DatatableModel {
 
 	public function appendToSelectStr() 
     {
-        return NULL;
+        return array(
+            'nama_penyidik' => 'CONCAT(A.nama_lengkap,", ",A.gelar, "<br>NRP: ", A.nrp)'
+        );
     }
 
     public function fromTableStr() 
     {
-        return 'master_pekerjaan A';
+        return 'penyidik A';
     }
 
     public function joinArray() 
     {
-        return NULL;
+        return array(
+            'master_satuan B' => 'A.id_satuan = B.id_satuan',
+            'master_pangkat C' => 'A.id_pangkat = C.id_pangkat',
+            'master_pendidikan_terakhir D' => 'A.id_pendidikan_terakhir = D.id_pendidikan_terakhir',
+        );
     }
 
     public function whereClauseArray()
     {
-        return NULL;
+        return array(
+            'A.id_penyidik' => 1
+        );
     }
 
 }

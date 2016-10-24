@@ -156,6 +156,25 @@ class Master_satuan_model extends CI_Model {
 		return $returnData;
 	}
 
+	public function select_master_satuan_by($id_polres)
+	{
+		$this->db->select('
+			A.nama_grup_wilayah,
+			B.id_grup_wilayah,
+			B.nama_polres,
+			C.id_satuan,
+			C.id_polres,
+			C.nama_satuan
+		');
+		$this->db->from('master_grup_wilayah AS A');
+		$this->db->join('master_polres AS B', 'A.id_grup_wilayah = B.id_grup_wilayah', 'inner');
+		$this->db->join('master_satuan AS C', 'B.id_polres = C.id_polres', 'inner');
+		$this->db->where('B.id_polres', $id_polres);
+		$query = $this->db->get('');
+
+		return $query->result();
+	}
+
 }
 
 /* End of file Master_satuan_model.php */

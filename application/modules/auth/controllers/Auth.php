@@ -122,6 +122,15 @@ class Auth extends MY_Controller {
 	    redirect(base_url('auth'));
 	}
 
+	public function forbidden()
+	{
+		$this->output->section('navbar', '__template/__backend/navbar');
+		$this->output->section('pageheader', '__template/__backend/pageheader');
+		$this->output->section('footer', '__template/__backend/footer');
+
+		$this->load->view('forbidden_content');
+	}
+
 }
 
 /* End of file Auth.php */
