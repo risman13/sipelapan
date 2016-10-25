@@ -17,6 +17,7 @@ class Master extends MY_Controller {
 		$this->load->model('master_polres_model');
 		$this->load->model('master_satuan_model');
 		$this->load->model('master_kategori_tkp_model');
+		$this->load->model('master_tindak_kejahatan_model');
 
 		$this->load->helper('form');
 		$this->load->library('form_validation');
@@ -855,6 +856,79 @@ class Master extends MY_Controller {
 		echo json_encode($response);
 	}
 	/* end master data grupwilayah */	
+
+	///======================================================================================================
+
+	/* begin master data tindak kejahatan */
+	public function data_tindak_kejahatan()
+	{
+		$data = array(
+			'data_tindak_kejahatan' => $this->master_tindak_kejahatan_model->select_master_tindak_kejahatan(), 
+		);
+
+		$this->load->view('data_tindak_kejahatan_content', $data, FALSE);
+	}
+
+	public function data_tindak_kejahatan_tambah()
+	{
+		$this->form_validation->set_rules('nama_tindak_kejahatan', 'Nama Tindak Kejahatan', 'trim|required|max_length[60]', 
+			array('required' => '%s Tidak boleh kosong', 'max_length' => 'Panjang maksimal %s 60 karakter'));
+
+		if ($this->form_validation->run() == FALSE) 
+		{
+			$_SESSION['ResponTitle']  = 'Gagal Simpan!';
+			$_SESSION['ResponMesage'] = validation_errors();
+			$_SESSION['ResponColor']  = 'danger';			
+			$this->session->mark_as_flash(array('ResponMesage', 'ResponColor', 'ResponTitle'));
+			redirect(base_url('master/tindak_kejahatan'));
+		} 
+		else 
+		{
+			$response = $this->master_tindak_kejahatan_model->insert_master_tindak_kejahatan(strtoupper($this->input->post('nama_tindak_kejahatan')));
+
+			$_SESSION['ResponTitle']  = $response['return_title'];
+			$_SESSION['ResponMesage'] = $response['return_mesage'];
+			$_SESSION['ResponColor']  = $response['return_color'];			
+			$this->session->mark_as_flash(array('ResponMesage', 'ResponColor', 'ResponTitle'));
+			redirect(base_url('master/data_tindak_kejahatan'));
+		}
+	}
+
+	public function data_tindak_kejahatan_edit()
+	{
+		$this->form_validation->set_rules('nama_tindak_kejahatan', 'Nama Tindak Kejahatan', 'trim|required|max_length[50]', 
+			array('required' => '%s Tidak boleh kosong', 'max_length' => 'Panjang maksimal %s 50 karakter'));
+
+		if ($this->form_validation->run() == FALSE) 
+		{
+			$_SESSION['ResponTitle']  = 'Gagal Simpan!';
+			$_SESSION['ResponMesage'] = validation_errors();
+			$_SESSION['ResponColor']  = 'danger';			
+			$this->session->mark_as_flash(array('ResponMesage', 'ResponColor', 'ResponTitle'));
+			redirect(base_url('master/data_tindak_kejahatan'));
+		} 
+		else 
+		{
+			$response = $this->master_tindak_kejahatan_model->update_master_tindak_kejahatan(strtoupper($this->input->post('nama_tindak_kejahatan')), 
+				$this->input->post('id'));
+
+			$_SESSION['ResponTitle']  = $response['return_title'];
+			$_SESSION['ResponMesage'] = $response['return_mesage'];
+			$_SESSION['ResponColor']  = $response['return_color'];			
+			$this->session->mark_as_flash(array('ResponMesage', 'ResponColor', 'ResponTitle'));
+			redirect(base_url('master/data_tindak_kejahatan'));
+		}
+	}
+
+	public function data_tindak_kejahatan_hapus()
+	{
+		$this->output->unset_template();
+
+		$response = $this->master_tindak_kejahatan_model->delete_master_tindak_kejahatan($this->input->post('id_tindak_kejahatan'));
+
+		echo json_encode($response);
+	}
+	/* end master data tindakkejahatan */
 }
 
 /* End of file Dashboard.php */
