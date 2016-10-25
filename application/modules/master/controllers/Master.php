@@ -637,8 +637,8 @@ class Master extends MY_Controller {
 
 	public function data_kategori_tkp_tambah()
 	{
-		$this->form_validation->set_rules('nama_kategori_tkp', 'Nama Kategori TKP', 'trim|required|max_length[20]', 
-			array('required' => '%s Tidak boleh kosong', 'max_length' => 'Panjang maksimal %s 20 karakter'));
+		$this->form_validation->set_rules('nama_kategori_tkp', 'Nama Kategori TKP', 'trim|required|max_length[60]', 
+			array('required' => '%s Tidak boleh kosong', 'max_length' => 'Panjang maksimal %s 60 karakter'));
 
 		if ($this->form_validation->run() == FALSE) 
 		{
@@ -662,8 +662,8 @@ class Master extends MY_Controller {
 
 	public function data_kategori_tkp_edit()
 	{
-		$this->form_validation->set_rules('nama_kategori_tkp', 'Nama Kategori TKP', 'trim|required|max_length[20]', 
-			array('required' => '%s Tidak boleh kosong', 'max_length' => 'Panjang maksimal %s 20 karakter'));
+		$this->form_validation->set_rules('nama_kategori_tkp', 'Nama Kategori TKP', 'trim|required|max_length[50]', 
+			array('required' => '%s Tidak boleh kosong', 'max_length' => 'Panjang maksimal %s 50 karakter'));
 
 		if ($this->form_validation->run() == FALSE) 
 		{

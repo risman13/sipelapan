@@ -109,7 +109,7 @@
 						<div class="row">
 							<div class="col-sm-12">
 								<label>Nama Kategori TKP</label>
-								<input type="text" name="nama_kategori_tkp" placeholder="isi nama KAtegori KTP" class="form-control" required="true">
+								<input type="text" name="nama_kategori_tkp" placeholder="isi nama Kategori KTP" class="form-control" required="true">
 							</div>
 						</div>
 					</div>
